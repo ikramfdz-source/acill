@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Sweet Seventeen 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+      color: white;
+    }
+    h1 {
+      margin-top: 80px;
+      font-size: 36px;
+      animation: glow 1.5s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 30px #ff69b4, 0 0 50px #ff1493; }
+    }
+    .btn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: #ff1493;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ff69b4;
+      color: white;
+    }
+    #message {
+      display: none;
+      font-size: 20px;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      opacity: 0.7;
+      top: -10px;
+      animation: fall 5s linear infinite;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 Happy Sweet 17, Cill! 🎉</h1>
+  <button class="btn" onclick="showMessage()">🎁 Buka Kado dari Bee 🎁</button>
+
+  <div id="message">
+    <p>Happy Sweet Seventeen yaa sayangku 💕</p>
+    <p>Semoga Acil selalu sehat, bahagia, dan makin bersinar ✨</p>
+    <p>Makasih udah jadi bagian terindah di hidup Bee. Love you always 💖</p>
+  </div>
+
+  <script>
+    function showMessage() {
+      document.getElementById("message").style.display = "block";
+      for (let i = 0; i < 100; i++) {
+        let confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor = "hsl(" + Math.random()*360 + ",100%,70%)";
+        confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
+        document.body.appendChild(confetti);
+      }
+    }
+  </script>
+</body>
+</html>
