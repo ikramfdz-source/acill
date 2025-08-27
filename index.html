@@ -1,90 +1,123 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Sweet Seventeen 💖</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
-      text-align: center;
-      overflow: hidden;
-      height: 100vh;
-      color: white;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweet Seventeen Quiz</title>
+<style>
+    body { 
+        font-family: 'Comic Sans MS', cursive, sans-serif; 
+        text-align: center; 
+        background: linear-gradient(135deg, #ffb6c1, #ffe6f0, #ff99cc); 
+        height: 100vh; 
+        margin: 0; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
     }
-    h1 {
-      margin-top: 80px;
-      font-size: 36px;
-      animation: glow 1.5s infinite alternate;
+    .quiz-container { 
+        padding: 30px; 
+        background: rgba(255, 240, 245, 0.9); 
+        border-radius: 15px; 
+        width: 80%; 
+        max-width: 500px; 
+        box-shadow: 0 10px 25px rgba(255, 102, 178, 0.4);
     }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #fff; }
-      to { text-shadow: 0 0 30px #ff69b4, 0 0 50px #ff1493; }
+    .question { 
+        font-size: 1.3em; 
+        margin-bottom: 25px; 
+        color: #d6336c;
     }
-    .btn {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 20px;
-      border: none;
-      border-radius: 30px;
-      background: white;
-      color: #ff1493;
-      cursor: pointer;
-      transition: 0.3s;
+    .btn { 
+        display: block; 
+        margin: 12px auto; 
+        padding: 12px 25px; 
+        font-size: 1em; 
+        cursor: pointer; 
+        border-radius: 8px; 
+        border: none; 
+        background: #ff66b2; 
+        color: white; 
+        transition: transform 0.2s, background 0.2s;
     }
-    .btn:hover {
-      background: #ff69b4;
-      color: white;
+    .btn:hover { 
+        background: #ff3399; 
+        transform: scale(1.05);
     }
-    #message {
-      display: none;
-      font-size: 20px;
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
+    h1 { 
+        color: #ff3399; 
+        font-size: 2.5em; 
+        margin-bottom: 20px;
     }
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: white;
-      opacity: 0.7;
-      top: -10px;
-      animation: fall 5s linear infinite;
+    p { 
+        font-size: 1.2em; 
+        color: #d6336c;
     }
-    @keyframes fall {
-      to { transform: translateY(110vh) rotate(360deg); }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <h1>🎂 Happy Sweet 17, Cill! 🎉</h1>
-  <button class="btn" onclick="showMessage()">🎁 Buka Kado dari Bee 🎁</button>
 
-  <div id="message">
-    <p>Happy Sweet Seventeen yaa sayangku 💕</p>
-    <p>Semoga Acil selalu sehat, bahagia, dan makin bersinar ✨</p>
-    <p>Makasih udah jadi bagian terindah di hidup Bee. Love you always 💖</p>
-  </div>
+<div class="quiz-container">
+    <div id="question" class="question"></div>
+    <div id="answers"></div>
+</div>
 
-  <script>
-    function showMessage() {
-      document.getElementById("message").style.display = "block";
-      for (let i = 0; i < 100; i++) {
-        let confetti = document.createElement("div");
-        confetti.className = "confetti";
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor = "hsl(" + Math.random()*360 + ",100%,70%)";
-        confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
-        document.body.appendChild(confetti);
-      }
+<script>
+const quiz = [
+    { 
+        q: "Kapan kita jadian?", 
+        a: ["25 September 2023", "26 September 2023", "27 September 2023", "24 September 2023"], 
+        correct: 0 
+    },
+    { 
+        q: "Hasil dari reaksi pembakaran hidrokarbon menghasilkan?", 
+        a: ["CO2 dan H2O", "O2 dan H2", "CO dan H2O", "CO2 dan O2"], 
+        correct: 0 
+    },
+    { 
+        q: "Hukum Newton kedua menjelaskan hubungan antara?", 
+        a: ["Gaya, massa, dan percepatan", "Gaya dan energi", "Massa dan energi", "Kecepatan dan percepatan"], 
+        correct: 0 
+    },
+    { 
+        q: "Turunan dari fungsi f(x) = x^3 adalah?", 
+        a: ["3x^2", "2x", "x^2", "3x^3"], 
+        correct: 0 
+    },
+    { 
+        q: "Percepatan gravitasi bumi mendekati?", 
+        a: ["9,8 m/s²", "10 m/s²", "8,9 m/s²", "9,2 m/s²"], 
+        correct: 0 
+    },
+];
+
+let current = 0;
+
+function showQuestion() {
+    if (current >= quiz.length) {
+        document.body.innerHTML = `
+        <div class="quiz-container">
+            <h1>BUMMM! 🎉</h1>
+            <p>Selamat Sweet Seventeen sayangkuu 💖<br>Cintakuu omaga, ga kerasa kmu udah tua aja 😘<br>Love u more & more!</p>
+        </div>`;
+        return;
     }
-  </script>
+
+    const q = quiz[current];
+    document.getElementById("question").innerText = q.q;
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+    q.a.forEach((ans, i) => {
+        const btn = document.createElement("button");
+        btn.className = "btn";
+        btn.innerText = ans;
+        btn.onclick = () => { current++; showQuestion(); };
+        answersDiv.appendChild(btn);
+    });
+}
+
+showQuestion();
+</script>
+
 </body>
 </html>
