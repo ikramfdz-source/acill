@@ -63,7 +63,7 @@
 </div>
 
 <!-- Musik santai loop -->
-<audio id="bgMusic" loop autoplay>
+<audio id="bgMusic" loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
@@ -110,6 +110,9 @@ function showQuestion() {
         btn.className = "btn";
         btn.innerText = ans;
         btn.onclick = () => { 
+            // Start background music on first click
+            if(bgMusic.paused){ bgMusic.play(); }
+
             if(i !== q.correct){
                 wrongSound.play();
                 let msg = "";
@@ -123,6 +126,8 @@ function showQuestion() {
                 alert(msg);
             } else {
                 correctSound.play();
+                btn.style.backgroundColor = "green"; // tombol hijau
+                alert("Mantapp bee!");
                 current++; 
                 showQuestion(); 
             }
