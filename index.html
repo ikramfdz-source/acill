@@ -62,36 +62,34 @@
     <div id="answers"></div>
 </div>
 
+<!-- Musik santai loop -->
+<audio id="bgMusic" loop autoplay>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Bunyi benar -->
+<audio id="correctSound">
+    <source src="https://www.soundjay.com/button/button-3.wav" type="audio/wav">
+</audio>
+
+<!-- Bunyi salah -->
+<audio id="wrongSound">
+    <source src="https://www.soundjay.com/button/beep-10.wav" type="audio/wav">
+</audio>
+
 <script>
 const quiz = [
-    { 
-        q: "Kapan kita jadian?", 
-        a: ["25 September 2023", "26 September 2023", "27 September 2023", "24 September 2023"], 
-        correct: 0 
-    },
-    { 
-        q: "Hasil dari reaksi pembakaran hidrokarbon menghasilkan?", 
-        a: ["CO2 dan H2O", "O2 dan H2", "CO dan H2O", "CO2 dan O2"], 
-        correct: 0 
-    },
-    { 
-        q: "Hukum Newton kedua menjelaskan hubungan antara?", 
-        a: ["Gaya, massa, dan percepatan", "Gaya dan energi", "Massa dan energi", "Kecepatan dan percepatan"], 
-        correct: 0 
-    },
-    { 
-        q: "Turunan dari fungsi f(x) = x^3 adalah?", 
-        a: ["3x^2", "2x", "x^2", "3x^3"], 
-        correct: 0 
-    },
-    { 
-        q: "Percepatan gravitasi bumi mendekati?", 
-        a: ["9,8 m/s²", "10 m/s²", "8,9 m/s²", "9,2 m/s²"], 
-        correct: 0 
-    },
+    { q: "Kapan kita jadian?", a: ["25 September 2023","26 September 2023","27 September 2023","24 September 2023"], correct: 0 },
+    { q: "Hasil dari reaksi pembakaran hidrokarbon menghasilkan?", a: ["CO2 dan H2O","O2 dan H2","CO dan H2O","CO2 dan O2"], correct: 0 },
+    { q: "Hukum Newton kedua menjelaskan hubungan antara?", a: ["Gaya, massa, dan percepatan","Gaya dan energi","Massa dan energi","Kecepatan dan percepatan"], correct: 0 },
+    { q: "Turunan dari fungsi f(x) = x^3 adalah?", a: ["3x^2","2x","x^2","3x^3"], correct: 0 },
+    { q: "Percepatan gravitasi bumi mendekati?", a: ["9,8 m/s²","10 m/s²","8,9 m/s²","9,2 m/s²"], correct: 0 },
 ];
 
 let current = 0;
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const bgMusic = document.getElementById("bgMusic");
 
 function showQuestion() {
     if (current >= quiz.length) {
@@ -111,7 +109,24 @@ function showQuestion() {
         const btn = document.createElement("button");
         btn.className = "btn";
         btn.innerText = ans;
-        btn.onclick = () => { current++; showQuestion(); };
+        btn.onclick = () => { 
+            if(i !== q.correct){
+                wrongSound.play();
+                let msg = "";
+                switch(current){
+                    case 0: msg = "bjirlah kecewah gwejh"; break; // jadian
+                    case 1: msg = "buk m geleng geleng melihat nanad"; break; // kimia
+                    case 2: msg = "aduh ci wen gimana nihh"; break; // fisika
+                    case 3: msg = "buk ii liat anak ibuk buk"; break; // matematika
+                    case 4: msg = "aduh ci wen gimana nihh"; break; // fisika/gravitasi
+                }
+                alert(msg);
+            } else {
+                correctSound.play();
+                current++; 
+                showQuestion(); 
+            }
+        };
         answersDiv.appendChild(btn);
     });
 }
