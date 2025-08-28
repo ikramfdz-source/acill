@@ -3,61 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cerita Interaktif Shaloom</title>
+  <title>Cerita Interaktif Acill</title>
   <style>
-    body { margin:0; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh;
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0); font-family:sans-serif; text-align:center; padding:20px; }
-    #story { display:none; max-width:600px; background:#fff; padding:20px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-    button { padding:12px 25px; border:none; background:#ec407a; color:#fff; font-size:1.2em; border-radius:10px; cursor:pointer; }
+    body {
+      margin:0; 
+      display:flex; 
+      flex-direction:column; 
+      justify-content:center; 
+      align-items:center; 
+      height:100vh;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0); 
+      font-family:sans-serif; 
+      text-align:center; 
+      padding:20px;
+    }
+    #story { 
+      display:none; 
+      max-width:600px; 
+      background:#fff; 
+      padding:20px; 
+      border-radius:15px; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+    }
+    button { 
+      padding:12px 20px; 
+      margin:10px; 
+      border:none; 
+      background:#ec407a; 
+      color:#fff; 
+      font-size:1em; 
+      border-radius:10px; 
+      cursor:pointer; 
+    }
     button:hover { background:#d81b60; }
   </style>
 </head>
 <body>
   <div id="start">
-    <h1>Cerita Interaktif</h1>
+    <h1>Cerita Interaktif Acill</h1>
     <button id="startBtn">Mulai Cerita</button>
   </div>
+
   <div id="story">
     <p id="scene">...</p>
-    <button id="nextBtn">Lanjut Cerita</button>
+    <div id="choices"></div>
   </div>
 
-  <!-- Musik dari Fesliyan Studios (royalty-free) -->
-  <audio id="bgMusic" loop>
-    <source src="https://www.fesliyanstudios.com/play-mp3/quiet-time" type="audio/mpeg" />
+  <!-- Musik chill tidur -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3aa57ef3d0.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const scenes = [
-      "Di sebuah negeri penuh cahaya, hiduplah seorang gadis bernama <b>Shaloom</b>—dipanggil <i>Cill</i> oleh yang dekat dengannya.",
-      "Malam itu sangat tenang—bintang-bintang seolah ingin merayakan hari spesial.",
-      "Ternyata itu adalah malam ketika <b>Shaloom</b> genap berusia 17 tahun ⭐.",
-      "Selamat Sweet Seventeen, <b>Shaloom (Cill)</b>! Semoga setiap harimu penuh keajaiban dan ceria."
-    ];
-    let idx = 0;
+    const scenes = {
+      start: {
+        text: "Di sebuah negeri diatas awan, hiduplah seorang gadis bernama Shaloom, tapi mas author manggil dia <b>Acill</b>. Malam itu langit indah banget, kayak ada yang spesial bakal terjadi ✨.",
+        choices: [
+          { text: "🌟 Liat bintang", next: "bintang" },
+          { text: "🌸 Jalan di taman", next: "taman" },
+          { text: "🎶 Denger musik", next: "musik" },
+          { text: "🍰 Cari cemilan", next: "cemilan" }
+        ]
+      },
+      bintang: {
+        text: "Acill liat bintang, eh ada bintang jatuh OMAGA ternyata ada pesannya: <i>‘Sesuatu indah bakal datang malam ini mwehehehe’</i>.",
+        choices: [{ text: "gasskenn", next: "scene3" }]
+      },
+      taman: {
+        text: "Di taman, Acill ngerasa suasananya cozy banget (anjay jaksel jaksel gitu dikit), kayak ada sesuatu nichh.",
+        choices: [{ text: "gasss", next: "scene3" }]
+      },
+      musik: {
+        text: "Musik sound horeg terdengar, tapi melodinya mirip banget sama lagu ulang tahun 🥳.",
+        choices: [{ text: "nextoo", next: "scene3" }]
+      },
+      cemilan: {
+        text: "Di meja cemilan, ada basreng, ada miso, ada kopi pentagon dihiasi dengan lilin yang belum dinyalain 🎂.",
+        choices: [{ text: "yapp lanjutt", next: "scene3" }]
+      },
+      scene3: {
+        text: "Malam itu jelas bukan malam biasa tetapi LUARRR BIASAA. Udara jadi hangat dan cahaya makin terang ✨.",
+        choices: [
+          { text: "🔥 Ikutin cahaya", next: "cahaya" },
+          { text: "🥳 Cari temen", next: "temen" },
+          { text: "💌 Buka pesan rahasia", next: "pesan" }
+        ]
+      },
+      cahaya: {
+        text: "Acill mengikuti cahaya, kemudian ketemu jalan penuh lampion yang bawa dia ke pesta rahasia 🎉.",
+        choices: [{ text: "gass", next: "ending" }]
+      },
+      temen: {
+        text: "Acill nemuin teman-temannya sembunyi (joy & lepi), terus mereka langsung keluar sambil teriak wuuff wuuff 🎊.",
+        choices: [{ text: "gassss", next: "ending" }]
+      },
+      pesan: {
+        text: "Pesan rahasia itu ternyata undangan ulang tahun Acill sendiri, ditulis dengan glitter pink ✨.",
+        choices: [{ text: "sikatt", next: "ending" }]
+      },
+      ending: {
+        text: "🎂 Selamaaat Sweet Seventeen, <b>Acill</b>!! 🎂<br>Semoga makin bahagia, makin kece, dan s2 secepatnyaa WAHAHAHAHA salam hangat dari author✨.",
+        choices: []
+      }
+    };
 
     const startBtn = document.getElementById("startBtn");
-    const nextBtn = document.getElementById("nextBtn");
     const storyDiv = document.getElementById("story");
     const sceneP = document.getElementById("scene");
+    const choicesDiv = document.getElementById("choices");
     const startDiv = document.getElementById("start");
-    const music = document.getElementById("bgMusic");
+
+    function showScene(key) {
+      const scene = scenes[key];
+      sceneP.innerHTML = scene.text;
+      choicesDiv.innerHTML = "";
+      scene.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.text;
+        btn.onclick = () => showScene(choice.next);
+        choicesDiv.appendChild(btn);
+      });
+    }
 
     startBtn.addEventListener("click", () => {
-      music.play().catch(e => console.warn("Autoplay blocked", e));
       startDiv.style.display = "none";
       storyDiv.style.display = "block";
-      sceneP.innerHTML = scenes[idx];
-    });
-
-    nextBtn.addEventListener("click", () => {
-      idx++;
-      if (idx < scenes.length) {
-        sceneP.innerHTML = scenes[idx];
-      } else {
-        sceneP.innerHTML = "💖 Tamat. Semoga harimu seindah dongeng ini! 💖";
-        nextBtn.style.display = "none";
-      }
+      showScene("start");
     });
   </script>
 </body>
