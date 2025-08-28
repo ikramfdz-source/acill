@@ -1,90 +1,161 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Sweet Seventeen 💖</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(135deg, #ffb6c1, #ffc0cb, #ff69b4);
-      text-align: center;
-      overflow: hidden;
-      height: 100vh;
-      color: white;
-    }
-    h1 {
-      margin-top: 80px;
-      font-size: 36px;
-      animation: glow 1.5s infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px #fff; }
-      to { text-shadow: 0 0 30px #ff69b4, 0 0 50px #ff1493; }
-    }
-    .btn {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 20px;
-      border: none;
-      border-radius: 30px;
-      background: white;
-      color: #ff1493;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .btn:hover {
-      background: #ff69b4;
-      color: white;
-    }
-    #message {
-      display: none;
-      font-size: 20px;
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: white;
-      opacity: 0.7;
-      top: -10px;
-      animation: fall 5s linear infinite;
-    }
-    @keyframes fall {
-      to { transform: translateY(110vh) rotate(360deg); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cerita Interaktif Fadhil & Ica</title>
+<style>
+body {
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  font-family:sans-serif;
+  text-align:center;
+  padding:20px;
+  overflow:hidden;
+}
+.bubble {
+  position:absolute;
+  bottom:-100px;
+  background:rgba(255,255,255,0.4);
+  border-radius:50%;
+  animation: rise 15s infinite ease-in;
+}
+@keyframes rise {
+  0% { transform: translateY(0) scale(1); opacity:0.6; }
+  50% { opacity:1; }
+  100% { transform: translateY(-120vh) scale(1.3); opacity:0; }
+}
+#story {
+  display:none;
+  max-width:600px;
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  z-index:2;
+  position:relative;
+}
+button {
+  padding:12px 20px;
+  margin:10px;
+  border:none;
+  background:#ec407a;
+  color:#fff;
+  font-size:1em;
+  border-radius:10px;
+  cursor:pointer;
+  z-index:2;
+  position:relative;
+}
+button:hover { background:#d81b60; }
+</style>
 </head>
 <body>
-  <h1>🎂 Happy Sweet 17, Cill! 🎉</h1>
-  <button class="btn" onclick="showMessage()">🎁 Buka Kado dari Bee 🎁</button>
 
-  <div id="message">
-    <p>Happy Sweet Seventeen yaa sayangku 💕</p>
-    <p>Semoga Acil selalu sehat, bahagia, dan makin bersinar ✨</p>
-    <p>Makasih udah jadi bagian terindah di hidup Bee. Love you always 💖</p>
-  </div>
+<div id="bubbles"></div>
 
-  <script>
-    function showMessage() {
-      document.getElementById("message").style.display = "block";
-      for (let i = 0; i < 100; i++) {
-        let confetti = document.createElement("div");
-        confetti.className = "confetti";
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor = "hsl(" + Math.random()*360 + ",100%,70%)";
-        confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
-        document.body.appendChild(confetti);
-      }
-    }
-  </script>
-</body>
-</html>
+<div id="start">
+  <h1> Ilmu Dikejar Hati Dijaga</h1>
+  <button id="startBtn">Mulai Cerita</button>
+</div>
+
+<div id="story">
+  <p id="scene">...</p>
+  <div id="choices"></div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3aa57ef3d0.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const scenes = {
+  start: {
+    text: "Fadhil duduk di meja belajarnya, lampu kamar asrama menyala lembut. Kertas catatan berserakan, beberapa buku terbuka, beberapa pulpen bergelimpangan. Dia capek, tapi ada satu hal yang membuat semua itu terasa ringan—bayangan Ica. Apa yang akan dia lakukan?",
+    choices: [
+      { text: "📚 Terus belajar", next: "scene2A" },
+      { text: "💌 Ngecek chat Ica", next: "scene2B" },
+      { text: "🛋️ Istirahat sebentar", next: "scene2C" },
+      { text: "🌌 Balkon & lihat bintang", next: "scene2D" }
+    ]
+  },
+  // Scene 2
+  scene2A: {
+    text: "Fadhil fokus menulis catatan, tapi pikirannya melayang ke Ica. Bayangan senyumnya bikin dia tersenyum sendiri. Tiba-tiba ada ide lucu yang ingin dibagikan ke Ica.",
+    choices: [
+      { text: "Kirim chat ke Ica", next: "scene3A" },
+      { text: "Fokus belajar saja", next: "scene3A2" }
+    ]
+  },
+  scene2B: {
+    text: "Fadhil membuka chat Ica, pesan manis dari Ica bikin hatinya hangat. Dia tersenyum, tapi bingung mau balas panjang atau singkat.",
+    choices: [
+      { text: "Balas panjang", next: "scene3B" },
+      { text: "Kirim emoji lucu", next: "scene3B2" }
+    ]
+  },
+  scene2C: {
+    text: "Fadhil rebahan, menutup mata sebentar. Bayangan Ica muncul, membawa cemilan favoritnya. Hatinya hangat meski rindu.",
+    choices: [
+      { text: "Ngecek chat Ica", next: "scene3C" },
+      { text: "Tidur sebentar", next: "scene3C2" }
+    ]
+  },
+  scene2D: {
+    text: "Fadhil di balkon menatap bintang. Bayangan Ica ada di pikirannya, hati terasa dekat walau fisik jauh.",
+    choices: [
+      { text: "Kirim voice note", next: "scene3D" },
+      { text: "Tulis diary", next: "scene3D2" }
+    ]
+  },
+  // Scene 3
+  scene3A: { text: "Fadhil kirim chat lucu & ide kreatif ke Ica. Hatinya hangat dan lega.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3A2: { text: "Fadhil fokus belajar. Meskipun capek, bayangan Ica bikin semangatnya kembali.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3B: { text: "Fadhil balas pesan panjang penuh cinta. Hatinya damai dan tersenyum.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3B2: { text: "Fadhil kirim emoji lucu, tetap manja tapi hati hangat.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3C: { text: "Fadhil ngecek chat Ica, stiker lucu & pesan manja bikin hatinya hangat.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3C2: { text: "Fadhil tidur sebentar, mimpi tentang Ica membuat hatinya lega.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3D: { text: "Fadhil kirim voice note, cerita tentang kuliah dan rindunya. Hatinya lega.", choices: [{ text: "Lanjut", next: "ending" }] },
+  scene3D2: { text: "Fadhil menulis diary panjang tentang rindu dan cinta untuk Ica.", choices: [{ text: "Lanjut", next: "ending" }] },
+  // Ending
+  ending: {
+    text: "Malam sudah larut. Fadhil menatap langit, jantungnya hangat saat pesan Ica masuk: 'Dil… aku juga rindu banget sama kamu. Semangat terus ya, aku sayang kamu banget 🥰'. Fadhil tersenyum lebar, lega, dan bahagia. Dia tahu satu hal: <b>aku ga boleh tertarik sama cewe lain, cuma Ica yang aku sayang. I love you, Bebee ❤️</b>. Lampu kamar yang hangat, malam yang tenang, dan cinta mereka membuat Fadhil tidur dengan hati damai. Semua jalur cerita berakhir bahagia ✨.",
+    choices: []
+  }
+};
+
+const startBtn = document.getElementById("startBtn");
+const storyDiv = document.getElementById("story");
+const sceneP = document.getElementById("scene");
+const choicesDiv = document.getElementById("choices");
+const startDiv = document.getElementById("start");
+const bgMusic = document.getElementById("bgMusic");
+
+function showScene(key) {
+  const scene = scenes[key];
+  sceneP.innerHTML = scene.text;
+  choicesDiv.innerHTML = "";
+  scene.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.textContent = choice.text;
+    btn.onclick = () => showScene(choice.next);
+    choicesDiv.appendChild(btn);
+  });
+}
+
+startBtn.addEventListener("click", () => {
+  startDiv.style.display = "none";
+  storyDiv.style.display = "block";
+  bgMusic.play();
+  showScene("start");
+});
+
+// generate bubbles
+const bubbles = document.getElementById("bubbles");
+for (let i=0; i<20; i++) {
+  cons
