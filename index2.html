@@ -60,7 +60,7 @@ button:hover { background:#d81b60; }
 <div id="bubbles"></div>
 
 <div id="start">
-  <h1> Ilmu Dikejar Hati Dijaga</h1>
+  <h1>Cerita Interaktif</h1>
   <button id="startBtn">Mulai Cerita</button>
 </div>
 
@@ -68,10 +68,6 @@ button:hover { background:#d81b60; }
   <p id="scene">...</p>
   <div id="choices"></div>
 </div>
-
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3aa57ef3d0.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 const scenes = {
@@ -84,7 +80,6 @@ const scenes = {
       { text: "🌌 Balkon & lihat bintang", next: "scene2D" }
     ]
   },
-  // Scene 2
   scene2A: {
     text: "Fadhil fokus menulis catatan, tapi pikirannya melayang ke Ica. Bayangan senyumnya bikin dia tersenyum sendiri. Tiba-tiba ada ide lucu yang ingin dibagikan ke Ica.",
     choices: [
@@ -113,7 +108,6 @@ const scenes = {
       { text: "Tulis diary", next: "scene3D2" }
     ]
   },
-  // Scene 3
   scene3A: { text: "Fadhil kirim chat lucu & ide kreatif ke Ica. Hatinya hangat dan lega.", choices: [{ text: "Lanjut", next: "ending" }] },
   scene3A2: { text: "Fadhil fokus belajar. Meskipun capek, bayangan Ica bikin semangatnya kembali.", choices: [{ text: "Lanjut", next: "ending" }] },
   scene3B: { text: "Fadhil balas pesan panjang penuh cinta. Hatinya damai dan tersenyum.", choices: [{ text: "Lanjut", next: "ending" }] },
@@ -122,7 +116,6 @@ const scenes = {
   scene3C2: { text: "Fadhil tidur sebentar, mimpi tentang Ica membuat hatinya lega.", choices: [{ text: "Lanjut", next: "ending" }] },
   scene3D: { text: "Fadhil kirim voice note, cerita tentang kuliah dan rindunya. Hatinya lega.", choices: [{ text: "Lanjut", next: "ending" }] },
   scene3D2: { text: "Fadhil menulis diary panjang tentang rindu dan cinta untuk Ica.", choices: [{ text: "Lanjut", next: "ending" }] },
-  // Ending
   ending: {
     text: "Malam sudah larut. Fadhil menatap langit, jantungnya hangat saat pesan Ica masuk: 'Dil… aku juga rindu banget sama kamu. Semangat terus ya, aku sayang kamu banget 🥰'. Fadhil tersenyum lebar, lega, dan bahagia. Dia tahu satu hal: <b>aku ga boleh tertarik sama cewe lain, cuma Ica yang aku sayang. I love you, Bebee ❤️</b>. Lampu kamar yang hangat, malam yang tenang, dan cinta mereka membuat Fadhil tidur dengan hati damai. Semua jalur cerita berakhir bahagia ✨.",
     choices: []
@@ -134,7 +127,6 @@ const storyDiv = document.getElementById("story");
 const sceneP = document.getElementById("scene");
 const choicesDiv = document.getElementById("choices");
 const startDiv = document.getElementById("start");
-const bgMusic = document.getElementById("bgMusic");
 
 function showScene(key) {
   const scene = scenes[key];
@@ -151,11 +143,21 @@ function showScene(key) {
 startBtn.addEventListener("click", () => {
   startDiv.style.display = "none";
   storyDiv.style.display = "block";
-  bgMusic.play();
   showScene("start");
 });
 
 // generate bubbles
 const bubbles = document.getElementById("bubbles");
 for (let i=0; i<20; i++) {
-  cons
+  const bubble = document.createElement("div");
+  const size = Math.random()*40 + 10;
+  bubble.classList.add("bubble");
+  bubble.style.width = size+"px";
+  bubble.style.height = size+"px";
+  bubble.style.left = Math.random()*100+"vw";
+  bubble.style.animationDuration = (10+Math.random()*10)+"s";
+  bubbles.appendChild(bubble);
+}
+</script>
+</body>
+</html>
