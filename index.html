@@ -16,8 +16,21 @@
       font-family:sans-serif; 
       text-align:center; 
       padding:20px;
-      overflow:hidden; /* biar bubble ga bikin scroll */
-      position:relative;
+      overflow:hidden;
+    }
+
+    /* bubble animasi */
+    .bubble {
+      position:absolute;
+      bottom:-100px;
+      background:rgba(255,255,255,0.4);
+      border-radius:50%;
+      animation: rise 15s infinite ease-in;
+    }
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity:0.6; }
+      50% { opacity:1; }
+      100% { transform: translateY(-120vh) scale(1.3); opacity:0; }
     }
 
     #story { 
@@ -27,40 +40,134 @@
       padding:20px; 
       border-radius:15px; 
       box-shadow:0 4px 10px rgba(0,0,0,0.1); 
-      z-index:10;
+      z-index:2;
+      position:relative;
     }
-
     button { 
-      padding:12px 25px; 
+      padding:12px 20px; 
+      margin:10px; 
       border:none; 
       background:#ec407a; 
       color:#fff; 
-      font-size:1.1em; 
+      font-size:1em; 
       border-radius:10px; 
       cursor:pointer; 
-      margin:5px;
+      z-index:2;
+      position:relative;
     }
     button:hover { background:#d81b60; }
-
-    /* bubble background */
-    .bubble {
-      position:absolute;
-      bottom:-100px;
-      background:rgba(255, 182, 193, 0.7);
-      border-radius:50%;
-      animation: rise infinite ease-in;
-    }
-
-    /* animasi bubble naik */
-    @keyframes rise {
-      0% { transform: translateY(0) scale(1); opacity:1; }
-      100% { transform: translateY(-120vh) scale(1.5); opacity:0; }
-    }
   </style>
 </head>
 <body>
-  <!-- bubble random -->
-  <div class="bubble" style="left:10%; width:40px; height:40px; animation-duration:12s;"></div>
-  <div class="bubble" style="left:25%; width:25px; height:25px; animation-duration:18s;"></div>
-  <div class="bubble" style="left:45%; width:50px; height:50px; animation-duration:20s;"></div>
-  <div class="bubble"
+  <!-- Bubble background -->
+  <div id="bubbles"></div>
+
+  <div id="start">
+    <h1>Cerita Interaktif</h1>
+    <button id="startBtn">Mulai Cerita</button>
+  </div>
+
+  <div id="story">
+    <p id="scene">...</p>
+    <div id="choices"></div>
+  </div>
+
+  <!-- Musik chill tidur -->
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_3aa57ef3d0.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const scenes = {
+      start: {
+        text: "Di sebuah negeri diatas awan, hiduplah seorang gadis bernama Shaloom, tapi author memanggil dia dengan panggilan <b>Acill</b>. Malam itu langit terlihat indah, kayak ada yang spesial bakal terjadi.... ✨.",
+        choices: [
+          { text: "🌟 Liat bintang", next: "bintang" },
+          { text: "🌸 Jalan di taman", next: "taman" },
+          { text: "🎶 Denger musik", next: "musik" },
+          { text: "🍰 Cari cemilan", next: "cemilan" }
+        ]
+      },
+      bintang: {
+        text: "Acill melihat bintang, eh ada bintang jatuh yang nyelipin pesan(aga aneh sih bintang membawa pesan tapi ini fiksi broo): <i>‘Sesuatu indah bakal datang malam ini mwe he he he he he’</i>.",
+        choices: [{ text: "Lanjut", next: "scene3" }]
+      },
+      taman: {
+        text: "Di taman, Acill ngerasa suasananya cozy banget (aga jaksel jaksel dikit), kayaknya ada sesuatu tuh.",
+        choices: [{ text: "Lanjut", next: "scene3" }]
+      },
+      musik: {
+        text: "Musik sound horeg kedengeran, tapi melodinya mirip banget sama lagu ulang tahun 🥳.",
+        choices: [{ text: "Lanjut", next: "scene3" }]
+      },
+      cemilan: {
+        text: "Di meja cemilan, ada basreng, ada miso, ada tahu isi dan ada lilin yang belum nyala 🎂.",
+        choices: [{ text: "Lanjut", next: "scene3" }]
+      },
+      scene3: {
+        text: "Apapun yang Acill lakukan, malam itu jelas bukan malam biasa tapi LUARRR BIASAAA. Udara jadi hangat dan cahaya makin terang ✨.",
+        choices: [
+          { text: "🔥 Ikutin cahaya", next: "cahaya" },
+          { text: "🥳 Cari temen", next: "temen" },
+          { text: "💌 Buka pesan rahasia", next: "pesan" }
+        ]
+      },
+      cahaya: {
+        text: "Acill ikutin cahaya, ketemu jalan penuh lampion yang bawa dia ke sebuah pesta rahasia 🎉.",
+        choices: [{ text: "Lanjut", next: "ending" }]
+      },
+      temen: {
+        text: "Acill nemuin teman-temannya sembunyi (joy & lepi), terus mereka langsung keluar sambil teriak wuff wufff 🎊.",
+        choices: [{ text: "Lanjut", next: "ending" }]
+      },
+      pesan: {
+        text: "Pesan rahasia itu ternyata undangan ulang tahun Acill sendiri, ditulis dengan glitter pink ✨.",
+        choices: [{ text: "Lanjut", next: "ending" }]
+      },
+      ending: {
+        text: "🎂 Selamaaat Sweet Seventeen, <b>Acill</b>!! 🎂<br>Semoga makin makin makin, semoga cepet dapet dompetnya, semoga buk m makin baik, semoga tugas kimia jadi ez dan cepat s2, salam hangat dari author✨.",
+        choices: []
+      }
+    };
+
+    const startBtn = document.getElementById("startBtn");
+    const storyDiv = document.getElementById("story");
+    const sceneP = document.getElementById("scene");
+    const choicesDiv = document.getElementById("choices");
+    const startDiv = document.getElementById("start");
+    const bgMusic = document.getElementById("bgMusic");
+
+    function showScene(key) {
+      const scene = scenes[key];
+      sceneP.innerHTML = scene.text;
+      choicesDiv.innerHTML = "";
+      scene.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.textContent = choice.text;
+        btn.onclick = () => showScene(choice.next);
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    startBtn.addEventListener("click", () => {
+      startDiv.style.display = "none";
+      storyDiv.style.display = "block";
+      bgMusic.play(); // musik start setelah klik
+      showScene("start");
+    });
+
+    // generate bubbles random
+    const bubbles = document.getElementById("bubbles");
+    for (let i=0; i<20; i++) {
+      const bubble = document.createElement("div");
+      const size = Math.random()*40 + 10;
+      bubble.classList.add("bubble");
+      bubble.style.width = size+"px";
+      bubble.style.height = size+"px";
+      bubble.style.left = Math.random()*100+"vw";
+      bubble.style.animationDuration = (10+Math.random()*10)+"s";
+      bubbles.appendChild(bubble);
+    }
+  </script>
+</body>
+</html>
